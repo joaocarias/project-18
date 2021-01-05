@@ -19,4 +19,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    /* Empresa */
+  Route::get('/empresas', 'EmpresaController@index')->name('empresa');
+  Route::get('/empresas/editar/{id}', 'EmpresaController@edit')->name('editar_empresa');
+  Route::put('/empresas/update/{id}', 'EmpresaController@update')->name('update_empresa');
+});
