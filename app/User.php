@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -36,4 +37,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+   // use SoftDeletes;
+    //protected $dates = ['deleted_at'];
+
+    public function profissional(){
+        return $this->belongsTo(Profissional::class, 'id', 'user_id');
+    }
+
+    public function passwordDefault(){
+        return '123456';
+    }
 }

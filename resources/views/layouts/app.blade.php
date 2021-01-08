@@ -59,7 +59,7 @@
                                     {{ __('Tipo de Profissionais') }}
                                 </a>
                                
-                                <a class="dropdown-item" href="{{ route('home') }}">
+                                <a class="dropdown-item" href="{{ route('profissionais') }}">
                                     <i class="fas fa-chalkboard-teacher"></i> &nbsp;
                                     {{ __('Profissionais') }}
                                 </a>

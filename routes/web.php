@@ -34,4 +34,18 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/tipos_profissionais/store', 'TipoProfissionalController@store')->name('cadastrar_tipo_profissional');
   Route::get('/tipos_profissionais/excluir/{id}', 'TipoProfissionalController@destroy')->name('excluir_tipo_profissional');
   Route::put('/tipos_profissionais/update/{id}', 'TipoProfissionalController@update')->name('update_tipo_profissional');
+
+  /* Profissionais */
+  Route::get('/profissionais', 'ProfissionalController@index')->name('profissionais');
+  Route::get('/profissionais/novo', 'ProfissionalController@create')->name('novo_profissional');
+  Route::post('/profissionais/store', 'ProfissionalController@store')->name('cadastrar_profissional');
+  Route::get('/profissionais/exibir/{id}', 'ProfissionalController@show')->name('exibir_profissional');
+  Route::get('/profissionais/editar/{id}', 'ProfissionalController@edit')->name('editar_profissional');
+  Route::put('/profissionais/update/{id}', 'ProfissionalController@update')->name('update_profissional');
+  Route::get('/profissionais/excluir/{id}', 'ProfissionalController@destroy')->name('excluir_profissional');
+  Route::get('/profissionais/resentarsenha/{id}', 'ProfissionalController@resetPassword')->name('resetar_senha_profissional');
+  Route::get('/profissionais/criarusuario/{id}', 'ProfissionalController@createUser')->name('criar_usuario_profissional');
+  //Route::post('/profissionais/inserirregra', 'ProfissionalController@inserirregrauser')->name('inserir_regra_usuario');
+ // Route::get('/profissionais/removerregrauser', 'ProfissionalController@removerregrauser')->name('remover_regra_user');
+
 });
