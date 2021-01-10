@@ -88,7 +88,7 @@
                             Nome: <strong>{{ __($usuario->name)  }}</strong>
                         </div>
                         <div class="col-md-6">
-                            UserName: <strong>{{ __($usuario->email)  }}</strong>
+                            UserName: <strong>{{ __($usuario->username)  }}</strong>
                         </div>
                     </div>
 

@@ -48,4 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
   //Route::post('/profissionais/inserirregra', 'ProfissionalController@inserirregrauser')->name('inserir_regra_usuario');
  // Route::get('/profissionais/removerregrauser', 'ProfissionalController@removerregrauser')->name('remover_regra_user');
 
+  /* User */
+  Route::get('/usuarios/atualizarsenha', 'Auth\\UserController@atualizarSenha')->name('atualizar_senha');
+  Route::put('/usuarios/updatepassword/{id}', 'Auth\\UserController@updatePassword')->name('update_password');
 });

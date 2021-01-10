@@ -38,8 +38,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-   // use SoftDeletes;
-    //protected $dates = ['deleted_at'];
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function profissional(){
         return $this->belongsTo(Profissional::class, 'id', 'user_id');

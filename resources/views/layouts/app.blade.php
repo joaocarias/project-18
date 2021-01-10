@@ -54,16 +54,23 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('tipo_profissional') }}">
-                                    <i class="fas fa-user-graduate"></i> &nbsp;
-                                    {{ __('Tipo de Profissionais') }}
+                                <a class="dropdown-item" href="{{ route('profissionais') }}">
+                                <i class="far fa-id-badge"></i> &nbsp;
+                                    {{ __('Paciente') }}
                                 </a>
+                                                            
+                                <div class="dropdown-divider"></div>
                                
                                 <a class="dropdown-item" href="{{ route('profissionais') }}">
                                     <i class="fas fa-chalkboard-teacher"></i> &nbsp;
                                     {{ __('Profissionais') }}
                                 </a>
-
+                              
+                                <a class="dropdown-item" href="{{ route('tipo_profissional') }}">
+                                    <i class="fas fa-user-graduate"></i> &nbsp;
+                                    {{ __('Tipo de Profissionais') }}
+                                </a>
+                                                              
                                 <div class="dropdown-divider"></div>
 
                                 <a class="dropdown-item" href="{{ route('empresa') }}">
@@ -82,12 +89,7 @@
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+                            </li>                           
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -95,11 +97,16 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+                                <a class="dropdown-item" href="{{ route('atualizar_senha') }}">
+                                    <i class="fas fa-user-lock"></i> &nbsp;
+                                    {{ __('Atualizar Senha') }}
+                                </a>
+
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    <i class="fas fa-sign-out-alt"></i> &nbsp;
+                                    {{ __('Sair') }}
+                                </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

@@ -200,7 +200,8 @@ class ProfissionalController extends Controller
         
         if(isset($obj->id)){           
             $usuario = new User();
-            $usuario->name = $obj->nome;            
+            $usuario->name = $obj->nome;  
+            $usuario->username = $obj->cpf;          
             $usuario->email = "email".$obj->id."@email.com";
             $usuario->password = Hash::make($usuario->passwordDefault());            
             $usuario->save();
