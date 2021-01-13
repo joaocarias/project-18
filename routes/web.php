@@ -45,8 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/profissionais/excluir/{id}', 'ProfissionalController@destroy')->name('excluir_profissional');
   Route::get('/profissionais/resentarsenha/{id}', 'ProfissionalController@resetPassword')->name('resetar_senha_profissional');
   Route::get('/profissionais/criarusuario/{id}', 'ProfissionalController@createUser')->name('criar_usuario_profissional');
-  //Route::post('/profissionais/inserirregra', 'ProfissionalController@inserirregrauser')->name('inserir_regra_usuario');
- // Route::get('/profissionais/removerregrauser', 'ProfissionalController@removerregrauser')->name('remover_regra_user');
+  Route::post('/profissionais/inserirregra', 'ProfissionalController@inserirregrauser')->name('inserir_regra_usuario');
+  Route::get('/profissionais/removerregrauser', 'ProfissionalController@removerregrauser')->name('remover_regra_user');
 
   /* User */
   Route::get('/usuarios/atualizarsenha', 'Auth\\UserController@atualizarSenha')->name('atualizar_senha');

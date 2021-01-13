@@ -6,7 +6,9 @@ use App\Dados\Repositorios\RepositorioProfissional;
 use App\Dados\Repositorios\RepositorioTipoProfissional;
 use App\LogSistema;
 use App\Profissional;
+use App\Regra;
 use App\User;
+use App\UserRegras;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -48,25 +50,25 @@ class ProfissionalController extends Controller
     {
         $obj = Profissional::find($id);
         $usuario = null;
-        // $permissoes = null;
-        // $regrasDoUser = UserRegra::select('regra_id')->where('user_id', $obj->user_id)->get();
-        // $regras = Regra::whereNotIn('id', $regrasDoUser)->get(); 
+         $permissoes = null;
+        $regrasDoUser = UserRegras::select('regra_id')->where('user_id', $obj->user_id)->get();
+        $regras = Regra::whereNotIn('id', $regrasDoUser)->get(); 
 
         if(isset($obj)){
              $usuario = User::find($obj->user_id);
              
-            //  if(isset($obj) && isset($obj->user_id) && !is_null($obj->user_id) && $obj->user_id > 0){
-            //      $permissoes = UserRegra::join('users', 'user_id', '=', 'users.id')
-            //                                  ->join('regras', 'regra_id', '=', 'regras.id')
-            //                                  ->where('user_id', $obj->user_id)
-            //                                  ->where('users.deleted_at', null)
-            //                                  ->where('regras.deleted_at', null)
-            //                                  ->get();                                    
-            //  }             
+              if(isset($obj) && isset($obj->user_id) && !is_null($obj->user_id) && $obj->user_id > 0){
+                  $permissoes = UserRegras::join('users', 'user_id', '=', 'users.id')
+                                              ->join('regras', 'regra_id', '=', 'regras.id')
+                                              ->where('user_id', $obj->user_id)
+                                              ->where('users.deleted_at', null)
+                                              ->where('regras.deleted_at', null)
+                                              ->get();                                    
+              }             
         }
         
           return view('profissional.show', ['profissional' => $obj , 'usuario' => $usuario                        
-                   //   , 'permissoes' => $permissoes, 'regras' => $regras
+                      , 'permissoes' => $permissoes, 'regras' => $regras
                    ]);
     }
     
@@ -236,6 +238,37 @@ class ProfissionalController extends Controller
         } 
 
         return redirect()->route('exibir_profissional', ['id' => $id])->withStatus(__($msg));
+    }
+
+    public function inserirregrauser(Request $request){
+        $obj = new UserRegras();
+        $obj->user_id = $request->input('user_id');
+        $obj->regra_id = $request->input('regra_id');           
+        $obj->usuario_cadastro = Auth::user()->id;
+        $obj->save();
+        
+        return redirect()->route('exibir_profissional', ['id' =>  $request->input('profissional_id') ])->withStatus(__('Cadastro Realizado com Sucesso!'));
+    }
+
+    public function removerregrauser(Request $request){
+        $regrasDoUser = UserRegras::where('regra_id', $request->input('idregra'))
+                                ->where('user_id', $request->input('iduser'))
+                                ->get();
+        
+        $profissional = Profissional::where("user_id", $request->input('iduser'))->first();
+
+        foreach($regrasDoUser as $r){            
+            $log = new LogSistema();
+            $log->tabela = "regra_user";
+            $log->tabela_id = $r->regra_id;
+            $log->acao = "user_id = " . $r->user_id . ", regra_id = " . $r->regra_id;
+            $log->descricao = "EXCLUSAO";
+            $log->usuario_id = Auth::user()->id;
+            $log->save();
+            $r->delete();
+        }
+              
+        return redirect()->route('exibir_profissional', ['id' => $profissional->id]);        
     }
 
     private function regras(){
