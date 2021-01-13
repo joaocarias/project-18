@@ -46,6 +46,11 @@ class User extends Authenticatable
     }
 
     public function passwordDefault(){
-        return '123456';
+        return '12345678';
+    }
+
+    public function regras()
+    {
+        return $this->belongsToMany(Regra::class, 'user_regras', 'user_id', 'regra_id');
     }
 }

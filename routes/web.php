@@ -51,4 +51,5 @@ Route::group(['middleware' => 'auth'], function () {
   /* User */
   Route::get('/usuarios/atualizarsenha', 'Auth\\UserController@atualizarSenha')->name('atualizar_senha');
   Route::put('/usuarios/updatepassword/{id}', 'Auth\\UserController@updatePassword')->name('update_password');
+  Route::get('/usuarios', 'Auth\\UserController@index')->name('usuarios');
 });

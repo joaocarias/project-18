@@ -1,3 +1,12 @@
+<?php
+    $permissoes = Array();
+    if(isset(Auth::user()->regras)){
+        foreach(Auth::user()->regras as $regra){
+            array_push($permissoes, $regra->nome);
+        }
+    }
+?>
+
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -8,7 +17,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
   
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -80,6 +88,21 @@
                             </div>
                         </li>
 
+                        @if(in_array("ADMINISTRADOR", $permissoes))
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ __('Sistema') }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('usuarios') }}">
+                                    <i class="fas fa-users"></i> &nbsp;
+                                    {{ __('Usuários') }}
+                                </a>
+                            </div>
+                        </li>
+                        @endif
+
                         @endAuth
                     </ul>
 
@@ -121,11 +144,8 @@
 
         <main class="py-4">
             @yield('content')
-        </main>
+        </main>    
 
-        
-
-    
     </div>
 
     <!-- Scripts -->

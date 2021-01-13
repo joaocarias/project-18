@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $usuarios = User::OrderBy('name', 'ASC')->get();
+        return view('auth.index', ['usuarios' => $usuarios]);     
+    }
+
     public function atualizarSenha(){
         return view('auth.passwords.atualizar_senha');
     }
