@@ -52,4 +52,13 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/usuarios/atualizarsenha', 'Auth\\UserController@atualizarSenha')->name('atualizar_senha');
   Route::put('/usuarios/updatepassword/{id}', 'Auth\\UserController@updatePassword')->name('update_password');
   Route::get('/usuarios', 'Auth\\UserController@index')->name('usuarios');
+
+  /* Aluno */
+  Route::get('/pacientes', 'PacienteController@index')->name('pacientes');
+  Route::get('/pacientes/exibir/{id}', 'PacienteController@show')->name('exibir_paciente');
+  Route::get('/pacientes/novo', 'PacienteController@create')->name('novo_paciente');
+  Route::post('/pacientes/store', 'PacienteController@store')->name('cadastrar_paciente');
+  Route::get('/pacientes/excluir/{id}', 'PacienteController@destroy')->name('excluir_paciente');
+  Route::get('/pacientes/editar/{id}', 'PacienteController@edit')->name('editar_paciente');
+  Route::put('/pacientes/update/{id}', 'PacienteController@update')->name('update_paciente');
 });

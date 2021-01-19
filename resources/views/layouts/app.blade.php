@@ -62,9 +62,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('profissionais') }}">
+                                <a class="dropdown-item" href="{{ route('pacientes') }}">
                                 <i class="far fa-id-badge"></i> &nbsp;
-                                    {{ __('Paciente') }}
+                                    {{ __('Pacientes') }}
                                 </a>
                                                             
                                 <div class="dropdown-divider"></div>

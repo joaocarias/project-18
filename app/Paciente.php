@@ -6,7 +6,7 @@ use App\Lib\Auxiliar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TipoProfissional extends Model
+class Paciente extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
@@ -19,5 +19,10 @@ class TipoProfissional extends Model
     public function dataCadastro()
     {         
         return Auxiliar::converterDataTimeBR($this->created_at);
+    }
+
+    public function dataNascimento()
+    {         
+        return Auxiliar::converterDataParaBR($this->data_nascimento);
     }
 }
