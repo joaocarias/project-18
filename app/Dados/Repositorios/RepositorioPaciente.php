@@ -30,7 +30,11 @@ class RepositorioPaciente implements IRepositorioPaciente
                 $obj->numero_ficha = $request->input('numero_ficha');
                 $obj->nome = mb_strtoupper($request->input('nome'));
                 $obj->cpf = $request->input('cpf');
-                $obj->data_nascimento = Auxiliar::converterDataParaUSA($request->input('data_nascimento')); 
+
+                if($this->verificaDataNascimento($request->input('data_nascimento'))){
+                    $obj->data_nascimento = Auxiliar::converterDataParaUSA($request->input('data_nascimento')); 
+                }         
+
                 $obj->genero = $request->input('genero');
                 $obj->telefone = $request->input('telefone');
                 $obj->email = $request->input('email');
@@ -50,5 +54,15 @@ class RepositorioPaciente implements IRepositorioPaciente
 
     public function Remover($id)
     {
+
+    }
+
+    private function verificaDataNascimento($dataNascimento){
+        try{
+            $data = Auxiliar::converterDataParaUSA($dataNascimento);
+            return true;
+        }catch(Exception $ex){
+            return false;
+        } 
     }
 }

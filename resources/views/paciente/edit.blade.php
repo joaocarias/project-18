@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container">
-    <div class="row text-center">
+    <div class="row text-center">       
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}"> <i class="fas fa-home"></i> &nbsp; Home</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('pacientes') }}">Pacientes</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Cadastro</li>
+                    <li class="breadcrumb-item active" aria-current="page">Editar Cadastro</li>
                 </ol>
             </nav>
         </div>
@@ -17,15 +17,17 @@
     <div class="row">
         <div class="col-md-12">
 
-            <form method="POST" action="{{ route('cadastrar_paciente') }}">
+        <form method="POST" action="{{ route('update_paciente', [ 'id' => $paciente->id ]) }}">
                 @csrf
+                @method('put')
 
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="card mb-3">
-                            <div class="card-header">{{ __('Cadastro') }}</div>
+                            <div class="card-header">{{ __('Editar') }}</div>
                             <div class="card-body">
-                                <div class="form-group row">
+                                
+                            <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="nome" class="col-form-label text-md-right">{{ __('* Nome') }}</label>
                                         <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome', $paciente->nome ?? '') }}" autocomplete="nome" maxlength="255" required>
@@ -50,7 +52,7 @@
 
                                     <div class="col-md-3">
                                         <label for="cpf" class="col-form-label text-md-right">{{ __('CPF') }}</label>
-                                        <input id="cpf" type="text" class="mask_cpf form-control @error('cpf') is-invalid @enderror" name="cpf" value="{{ old('cpf', $paciente->nome ?? '') }}" autocomplete="cpf" maxlength="14">
+                                        <input id="cpf" type="text" class="mask_cpf form-control @error('cpf') is-invalid @enderror" name="cpf" value="{{ old('cpf', $paciente->cpf ?? '') }}" autocomplete="cpf" maxlength="14">
 
                                         @error('cpf')
                                         <span class="invalid-feedback" role="alert">
@@ -121,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>               
 
                 <div class="form-group row">
                     <div class="col-md-12">
@@ -168,4 +170,5 @@
         todayHighlight: true,
     });
 </script>
+
 @endsection
