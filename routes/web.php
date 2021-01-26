@@ -61,4 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/pacientes/excluir/{id}', 'PacienteController@destroy')->name('excluir_paciente');
   Route::get('/pacientes/editar/{id}', 'PacienteController@edit')->name('editar_paciente');
   Route::put('/pacientes/update/{id}', 'PacienteController@update')->name('update_paciente');
+
+  /* Agendas */
+  Route::get('/agendas', 'AgendaController@index')->name('agendas');
+  
 });

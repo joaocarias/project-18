@@ -69,11 +69,16 @@
                                                             
                                 <div class="dropdown-divider"></div>
                                
+                                <a class="dropdown-item" href="{{ route('agendas') }}">
+                                    <i class="far fa-calendar-alt"></i> &nbsp;
+                                    {{ __('Agendas') }}
+                                </a>
+
                                 <a class="dropdown-item" href="{{ route('profissionais') }}">
                                     <i class="fas fa-chalkboard-teacher"></i> &nbsp;
                                     {{ __('Profissionais') }}
                                 </a>
-                              
+
                                 <a class="dropdown-item" href="{{ route('tipo_profissional') }}">
                                     <i class="fas fa-user-graduate"></i> &nbsp;
                                     {{ __('Tipo de Profissionais') }}
