@@ -6,6 +6,10 @@ class AgendaViewModel
 {
     private $profissionais;
     private $data;
+    private $profissional_id;
+    private $profissional;
+    private $data_agenda;
+    private $agendas;
 
     public function __construct()
     {
@@ -32,6 +36,54 @@ class AgendaViewModel
     public function setData($data)
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    public function getProfissional_id()
+    {
+        return $this->profissional_id;
+    }
+
+    public function setProfissional_id($profissional_id)
+    {
+        $this->profissional_id = $profissional_id;
+
+        return $this;
+    }
+
+    public function getData_agenda()
+    {
+        return $this->data_agenda;
+    }
+
+    public function setData_agenda($data_agenda)
+    {
+        $this->data_agenda = $data_agenda;
+
+        return $this;
+    }
+
+    public function getAgendas()
+    {
+        return $this->agendas;
+    }
+
+    public function setAgendas($agendas)
+    {
+        $this->agendas = $agendas;
+
+        return $this;
+    }
+    
+    public function getProfissional()
+    {
+        return $this->profissional;
+    }
+ 
+    public function setProfissional($profissional)
+    {
+        $this->profissional = $profissional;
 
         return $this;
     }
