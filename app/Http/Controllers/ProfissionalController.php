@@ -38,9 +38,8 @@ class ProfissionalController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate($this->regras(), $this->mensagens());
-        $retorno = $this->_repositorioProfissional->Adicionar($request);
-        if($retorno)
+        $request->validate($this->regras(), $this->mensagens());        
+        if($this->_repositorioProfissional->Adicionar($request))
             return redirect()->route('profissionais')->withStatus(__('Cadastro Realizado com Sucesso!'));
         
         return redirect()->route('profissionais')->withStatus(__('ERROR: Cadastro Não Realizado!'));

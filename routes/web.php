@@ -64,6 +64,6 @@ Route::group(['middleware' => 'auth'], function () {
 
   /* Agendas */
   Route::get('/agendas', 'AgendaController@index')->name('agendas');
-  Route::get('/agendas/liberar', 'AgendaController@liberar')->name('liberar_agenda');
+  Route::get('/agendas/liberar', 'AgendaController@store')->name('liberar_agenda');
   
 });

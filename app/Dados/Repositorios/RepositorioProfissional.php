@@ -46,7 +46,7 @@ class RepositorioProfissional implements IRepositorioProfissional {
 
             return true;
         }catch(Exception $ex){
-            echo $ex;
+            //echo $ex;
             return false;
         }
     }

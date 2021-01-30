@@ -7,7 +7,7 @@ class AgendaViewModel
     private $profissionais;
     private $data;
     private $profissional_id;
-    private $profissional;
+    private $profissional_nome;
     private $data_agenda;
     private $agendas;
 
@@ -76,14 +76,14 @@ class AgendaViewModel
         return $this;
     }
     
-    public function getProfissional()
+    public function getProfissional_nome()
     {
-        return $this->profissional;
+        return $this->profissional_nome;
     }
- 
-    public function setProfissional($profissional)
+
+    public function setProfissional_nome($profissional_nome)
     {
-        $this->profissional = $profissional;
+        $this->profissional_nome = $profissional_nome;
 
         return $this;
     }

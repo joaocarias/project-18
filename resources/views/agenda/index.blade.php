@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
 <div class="container">
     <div class="row text-center">
@@ -86,7 +87,36 @@
                 <div class="card-header">{{ __('Agenda') }}</div>
                 <div class="card-body">
 
-                    @if(isset($model) && count($model->getAgendas()) )
+                    @if(isset($model) && count($agendas) )
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Data e Horário</th>
+                                <th scope="col">Situação</th>
+                                <th scope="col">Paciente</th>
+                               
+                                <th scope="col"></th>
+                            <tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($agendas as $item)
+                            <tr>
+                                <td scope="row">{{ __($item->id) }}</td>
+                                <td>{{ __($item->dataAgendamento()) }}</td>
+                                <td>{{ __($item->situacao()) }}</td>
+                                <td></td>
+                               
+                                
+                                <td class="text-right">
+                                    <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Editar </a>
+                                    <a href="#" class="btn btn-danger btn-sm btn-excluir" obj-id="{{ $item->id }}"> <i class="far fa-trash-alt"></i> Excluir </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
                     @else
                     <div class="alert alert-warning" role="alert">
@@ -96,7 +126,7 @@
 
                     <hr />
 
-                    <a href="#" class="btn btn-success btn-liberar-agenda" profissional-id="{{ $model->getProfissional_id() }}" profissional-nome="{{ $model->getProfissional()->nome }}" data="{{ $model->getData_agenda() }}"> <i class="far fa-calendar-alt"></i> Liberar Agenda</a>
+                    <a href="#" class="btn btn-success btn-liberar-agenda" profissional-id="{{ $model->getProfissional_id() }}" profissional-nome="{{ $model->getProfissional_nome() }}" data="{{ $model->getData_agenda() }}"> <i class="far fa-calendar-alt"></i> Liberar Agenda</a>
 
                 </div>
             </div>
@@ -115,6 +145,9 @@
                 </div>
                 <div class="modal-body">
                     <form method="GET" class="form-liberar" action="{{ route('liberar_agenda') }}">
+
+                        <input type="hidden" id="liberar_profissional_id" name="liberar_profissional_id" value="{{ $model->getProfissional_id() }}" />
+                        <input type="hidden" id="hidden_liberar_data_agenda" name="hidden_liberar_data_agenda" value="{{ $model->getData_agenda() }}" />
 
                         <div class="form-group row">
                             <div class="col-md-3">
@@ -150,9 +183,8 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="liberar_profissional_id" class="col-form-label">{{ __('* Profissional') }}</label>
-
-                                <input id="liberar_profissional_id" type="text" class="form-control @error('liberar_profissional_id') is-invalid @enderror" name="liberar_profissional_id" value="{{ old('liberar_profissional_id', $model->getProfissional()->nome ?? '') }}" autocomplete="off" disabled>
+                                <label for="liberar_profissional_nome" class="col-form-label">{{ __('* Profissional') }}</label>
+                                <input id="liberar_profissional_nome" type="text" class="form-control @error('liberar_profissional_nome') is-invalid @enderror" name="liberar_profissional_nome" value="{{ old('liberar_profissional_nome', $model->getProfissional_nome() ?? '') }}" autocomplete="off" disabled>
                             </div>
                         </div>
 
@@ -184,18 +216,14 @@
     </script>
 
     <script type="text/javascript">
-        $('.btn-liberar-agenda').on('click', function() {
-            var profissional_id = $(this).attr('profissional-id');
-            var data_agenda = $(this).attr('data-agenda');
-            var profissional_nome = $(this).attr('profissional-nome');
-
+        $('.btn-liberar-agenda').on('click', function() {            
             $('#ModalLiberarAgenda').modal('show');
         });
 
         $('.btn-submit-form-liberar').on('click', function(){
             
             var liberar_horario = $('#liberar_horario_agenda').val();
-            if(liberar_horario != "" && liberar_horario.lenght > 4){
+            if(liberar_horario != ""){
                 $('.form-liberar').submit();
             } else{
                console.log(liberar_horario.lenght);

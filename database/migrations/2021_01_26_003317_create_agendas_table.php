@@ -19,7 +19,7 @@ class CreateAgendasTable extends Migration
 
             $table->id();
 
-            $table->dateTime('data')->nullable();
+           // $table->dateTime('data')->nullable();
 
             $table->unsignedBigInteger('profissional_id')->nullable();
             $table->foreign('profissional_id')->references('id')->on('profissionals'); 
