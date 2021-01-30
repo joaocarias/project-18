@@ -26,7 +26,26 @@ class Agenda extends Model
         return Auxiliar::converterDataTimeBR($this->data_agendamento);
     }
 
-    public function situacao(){
-        return "LIBERADA";
+    private function situacao(){
+        if(!is_null($this->paciente_id) and $this->paciente_id > 0 ){
+            return $this->arraySituacao("AGENDADA", "success") ;
+        }
+        return $this->arraySituacao("LIBERADA", "primary");
     }
+
+    public function situacaoCor(){
+        $situacao = $this->situacao();
+        return $situacao['cor'];
+    }
+
+    public function situacaoStatus(){
+        $situacao = $this->situacao();
+        return $situacao['status'];
+    }
+
+    private function arraySituacao($status, $cor ){
+        return [ 'status' => $status, 'cor' => $cor];
+    }
+
+
 }

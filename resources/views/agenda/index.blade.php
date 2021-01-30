@@ -93,8 +93,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Data e Horário</th>
                                 <th scope="col">Situação</th>
+                                <th scope="col">Data e Horário</th>
                                 <th scope="col">Paciente</th>
                                
                                 <th scope="col"></th>
@@ -102,13 +102,12 @@
                         </thead>
                         <tbody>
                             @foreach ($agendas as $item)
+
                             <tr>
                                 <td scope="row">{{ __($item->id) }}</td>
-                                <td>{{ __($item->dataAgendamento()) }}</td>
-                                <td>{{ __($item->situacao()) }}</td>
-                                <td></td>
-                               
-                                
+                                <td><span class="badge badge-{{ $item->situacaoCor() }}">{{ $item->situacaoStatus() }}</span></td>
+                                <td>{{ __($item->dataAgendamento()) }}</td>                                
+                                <td></td>               
                                 <td class="text-right">
                                     <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Editar </a>
                                     <a href="#" class="btn btn-danger btn-sm btn-excluir" obj-id="{{ $item->id }}"> <i class="far fa-trash-alt"></i> Excluir </a>
