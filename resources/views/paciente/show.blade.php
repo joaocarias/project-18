@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row text-center">
-        
+
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -116,7 +116,64 @@
         </div>
     </div>
 
-    @endif    
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="card-header">{{ __('Agendamentos') }}</div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if(isset($agendamentos) && count($agendamentos) > 0)
+                            <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Situação</th>
+                                <th scope="col">Data e Horário</th>                              
+
+                                <th scope="col"></th>
+                            <tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($agendamentos as $item)
+
+                            <tr>
+                                <td scope="row">{{ __($item->id) }}</td>
+                                <td><span class="badge badge-{{ $item->situacaoCor() }}">{{ $item->situacaoStatus() }}</span></td>
+                                <td>{{ __($item->dataAgendamento()) }}</td>                               
+                                <td class="text-right">   </td>
+                            </tr>
+
+                            @endforeach
+                        </tbody>
+                    </table>
+                            @else
+                            <div class="alert alert-warning" role="alert">
+                                Não Encontrou Registros!
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{{ route('agendar_agenda', ['pacienteId' => $paciente->id ]) }}" class="btn btn-success btn-sm"><i class="far fa-calendar-alt"></i> Agendar </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @endif
 
 </div>
 
@@ -150,6 +207,6 @@
         var id = $(this).attr('id-paciente');
         $('#url-modal-excluir').attr('href', '/pacientes/excluir/' + id);
         $('#ModalExcluir').modal('show');
-    });   
+    });
 </script>
 @endsection

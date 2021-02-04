@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Agenda;
 use App\Dados\Repositorios\RepositorioAgenda;
+use App\Dados\Repositorios\RepositorioPaciente;
 use App\Dados\Repositorios\RepositorioProfissional;
 use App\Lib\Auxiliar;
+use App\LogSistema;
 use App\ViewModel\AgendaViewModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AgendaController extends Controller
 {
     private $_repositorioProfissional;
     private $_repositorioAgenda;
+    private $_repositorioPaciente;
 
     public function __construct()
     {
         $this->_repositorioProfissional = new RepositorioProfissional();
         $this->_repositorioAgenda = new RepositorioAgenda();
+        $this->_repositorioPaciente = new RepositorioPaciente();
     } 
 
     public function index(Request $request)
@@ -66,6 +72,36 @@ class AgendaController extends Controller
 
     public function destroy($id)
     {
+        $obj = Agenda::find($id);
+      
+        if (isset($obj)) {
+            $obj->delete();
+            $log = new LogSistema();
+            $log->tabela = "agendas";
+            $log->tabela_id = $id;
+            $log->acao = "EXCLUSAO";
+            $log->descricao = "EXCLUSAO";
+            $log->usuario_id = Auth::user()->id;
+            $log->save();
+            
+            return redirect()->route('agendas')->withStatus(__('Cadastro Excluído com Sucesso!'));
+        }
+    }
+
+    public function agendar(Request $request, $pacienteId){    
+        $agendasProfissional = null;
+        $profissional = null;
+        if(isset($request) && !is_null($request)){
+            $agendasProfissional = $this->_repositorioAgenda->ObterPorDataProfissional($request->input('profissional_id'), Auxiliar::converterDataParaUSA($request->input('data_agenda')));
+            $profissional = $this->_repositorioProfissional->Obter($request->input('profissional_id'));
+        }
         
+        return view('agenda.agendar', ['paciente' => $this->_repositorioPaciente->obter($pacienteId)              
+                                        , 'profissionais' => $this->_repositorioProfissional->ObterTodos()
+                                        , 'dataForm' => date("d/m/Y")                          
+                                        , 'agendamentos' => $this->_repositorioAgenda->obterAgendasDoPaciente($pacienteId)
+                                        , 'agendasProfissional' => $agendasProfissional
+                                        , 'pacienteId' => $pacienteId 
+                                        , 'profissional' => $profissional ]); 
     }
 }

@@ -5,6 +5,7 @@ namespace App\Dados\Repositorios;
 use App\Agenda;
 use App\Dados\IRepositorios\IRepositorioAgenda;
 use App\Lib\Auxiliar;
+use App\Paciente;
 use App\ViewModel\AgendaViewModel;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -44,5 +45,10 @@ class RepositorioAgenda implements IRepositorioAgenda
         return Agenda::where('profissional_id', $profissional_id)
                         ->whereBetween('data_agendamento', [$data . " 00:00:00", $data . " 23:59:59" ])
                         ->OrderBy('data_agendamento', 'asc')->get();
+    }
+
+    public function obterAgendasDoPaciente($pacienteId){
+        return Agenda::where('paciente_id', $pacienteId)
+                        ->OrderBy('data_agendamento', 'asc')->get();;
     }
 }

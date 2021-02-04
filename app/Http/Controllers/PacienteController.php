@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dados\Repositorios\RepositorioAgenda;
 use App\Dados\Repositorios\RepositorioEndereco;
 use App\Dados\Repositorios\RepositorioPaciente;
 use App\Endereco;
@@ -14,11 +15,14 @@ use Illuminate\Support\Facades\Auth;
 class PacienteController extends Controller
 {   
     private $_repositorioPaciente;
+    private $_repositorioAgenda;
+    private $_repositorioEndereco;
 
     public function __construct()
     {
         $this->_repositorioPaciente = new RepositorioPaciente();   
         $this->_repositorioEndereco = new RepositorioEndereco(); 
+        $this->_repositorioAgenda = new RepositorioAgenda();
     }
 
     public function index()
@@ -49,8 +53,12 @@ class PacienteController extends Controller
               
         if($obj->endereco_id > 0)
             $endereco = $this->_repositorioEndereco->obter($obj->endereco_id);
+
+        $agendamentos = $this->_repositorioAgenda->obterAgendasDoPaciente($obj->id);
      
-        return view('paciente.show', ['paciente' => $obj, 'endereco' => $endereco]);
+        return view('paciente.show', ['paciente' => $obj
+                                        , 'endereco' => $endereco
+                                        , 'agendamentos' => $agendamentos]);
     }
     
     public function edit($id)

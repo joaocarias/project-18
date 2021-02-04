@@ -25,4 +25,8 @@ class Paciente extends Model
     {         
         return Auxiliar::converterDataParaBR($this->data_nascimento);
     }
+
+    public function agenda(){
+        return $this->hasMany(Agenda::class, 'id', 'paciente_id');
+    }
 }

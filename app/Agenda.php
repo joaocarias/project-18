@@ -47,5 +47,10 @@ class Agenda extends Model
         return [ 'status' => $status, 'cor' => $cor];
     }
 
+    public function paciente(){
+        return $this->belongsTo(Paciente::class, 'paciente_id', 'id');
+    }
+
+
 
 }

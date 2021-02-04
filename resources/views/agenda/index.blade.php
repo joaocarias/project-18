@@ -81,6 +81,8 @@
         </div>
     </form>
 
+    @if(isset($model) && $model->getProfissional_id() > 0 )
+
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-3">
@@ -96,7 +98,7 @@
                                 <th scope="col">Situação</th>
                                 <th scope="col">Data e Horário</th>
                                 <th scope="col">Paciente</th>
-                               
+
                                 <th scope="col"></th>
                             <tr>
                         </thead>
@@ -106,13 +108,17 @@
                             <tr>
                                 <td scope="row">{{ __($item->id) }}</td>
                                 <td><span class="badge badge-{{ $item->situacaoCor() }}">{{ $item->situacaoStatus() }}</span></td>
-                                <td>{{ __($item->dataAgendamento()) }}</td>                                
-                                <td></td>               
+                                <td>{{ __($item->dataAgendamento()) }}</td>
+                                <td></td>
                                 <td class="text-right">
-                                    <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Editar </a>
+                                    @if($item->paciente && $item->paciente->id > 0)
+                                    <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> Desmarcar </a>
+                                    @else
                                     <a href="#" class="btn btn-danger btn-sm btn-excluir" obj-id="{{ $item->id }}"> <i class="far fa-trash-alt"></i> Excluir </a>
+                                    @endif
                                 </td>
                             </tr>
+
                             @endforeach
                         </tbody>
                     </table>
@@ -131,6 +137,8 @@
             </div>
         </div>
     </div>
+
+    @endif
 
     <!-- Modal Liberar Agenda -->
     <div class="modal fade" id="ModalLiberarAgenda" tabindex="-1" role="dialog" aria-labelledby="TituloModalLiberarAgenda" aria-hidden="true">
@@ -158,11 +166,11 @@
                                     </div>
                                     <input id="liberar_horario_agenda" type="text" class="form-control @error('liberar_horario_agenda') is-invalid @enderror time-hh-mm" name="liberar_horario_agenda" value="{{ old('liberar_horario_agenda', '' ?? '') }}" autocomplete="off" required>
                                 </div>
-                                
+
                                 <div class="liberar_horario_agenda_error" role="alert">
-                                  
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="col-md-3">
@@ -190,7 +198,28 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a id="btn-submit-form-liberar" href="#" class="btn btn-danger btn-submit-form-liberar"> <i class="far fa-save"></i> Liberar</a>
+                    <a id="btn-submit-form-liberar" href="#" class="btn btn-primary btn-submit-form-liberar"> <i class="far fa-save"></i> Liberar</a>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal"> <i class="fas fa-ban"></i> Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Excluir -->
+    <div class="modal fade" id="ModalExcluir" tabindex="-1" role="dialog" aria-labelledby="TituloModalExcluir" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TituloModalExcluir"><i class="fas fa-exclamation-circle"></i> Excluir!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja Excluir o Cadastro?</p>
+                </div>
+                <div class="modal-footer">
+                    <a id="url-modal-excluir" href="#" class="btn btn-danger"> <i class="far fa-trash-alt"></i> Confirmar e Excluir</a>
                     <button type="button" class="btn btn-dark" data-dismiss="modal"> <i class="fas fa-ban"></i> Cancelar</button>
                 </div>
             </div>
@@ -215,19 +244,27 @@
     </script>
 
     <script type="text/javascript">
-        $('.btn-liberar-agenda').on('click', function() {            
+        $('.btn-liberar-agenda').on('click', function() {
             $('#ModalLiberarAgenda').modal('show');
         });
 
-        $('.btn-submit-form-liberar').on('click', function(){
-            
+        $('.btn-submit-form-liberar').on('click', function() {
+
             var liberar_horario = $('#liberar_horario_agenda').val();
-            if(liberar_horario != ""){
+            if (liberar_horario != "") {
                 $('.form-liberar').submit();
-            } else{
-               console.log(liberar_horario.lenght);
+            } else {
+                console.log(liberar_horario.lenght);
                 $('.liberar_horario_agenda_error').html("<strong>Campo Inválido!<strong>");
-            }          
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.btn-excluir').on('click', function() {
+            var id = $(this).attr('obj-id');
+            $('#url-modal-excluir').attr('href', '/agendas/excluir/' + id);
+            $('#ModalExcluir').modal('show');
         });
     </script>
     @endsection
