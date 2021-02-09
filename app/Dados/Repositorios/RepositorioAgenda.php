@@ -47,6 +47,14 @@ class RepositorioAgenda implements IRepositorioAgenda
                         ->OrderBy('data_agendamento', 'asc')->get();
     }
 
+    public function ObterLivresPorDataProfissional($profissional_id, $data)
+    {
+        return Agenda::where('profissional_id', $profissional_id)
+                        ->whereNull('paciente_id')
+                        ->whereBetween('data_agendamento', [$data . " 00:00:00", $data . " 23:59:59" ])
+                        ->OrderBy('data_agendamento', 'asc')->get();
+    }
+
     public function obterAgendasDoPaciente($pacienteId){
         return Agenda::where('paciente_id', $pacienteId)
                         ->OrderBy('data_agendamento', 'asc')->get();;

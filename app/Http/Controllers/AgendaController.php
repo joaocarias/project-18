@@ -91,6 +91,14 @@ class AgendaController extends Controller
                 $log->usuario_id = Auth::user()->id;
                 $log->save();
             }
+
+            return redirect()->action(
+                [Paciente::class, 'exibir_paciente'], ['id' => $id]
+            )->withStatus(__('Agenda realizada com Sucesso!'));
+        }else{
+            return redirect()->action(
+                [Paciente::class, 'exibir_paciente'], ['id' => $id]
+            )->withStatus(__('Não foi possível realizar o agendamento!'));
         }
     }
 
@@ -118,7 +126,7 @@ class AgendaController extends Controller
         $profissional_id = $request->input('profissional_id');
         $data_agenda = $request->input('data_agenda');
         if(isset($request) && !is_null($request) && isset($profissional_id) && !is_null($profissional_id) && isset($data_agenda) && !is_null($data_agenda) ){
-            $agendasProfissional = $this->_repositorioAgenda->ObterPorDataProfissional($profissional_id, Auxiliar::converterDataParaUSA($data_agenda));
+            $agendasProfissional = $this->_repositorioAgenda->ObterLivresPorDataProfissional($profissional_id, Auxiliar::converterDataParaUSA($data_agenda));
             $profissional = $this->_repositorioProfissional->Obter($profissional_id);
         }
         

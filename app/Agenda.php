@@ -27,7 +27,7 @@ class Agenda extends Model
     }
 
     private function situacao(){
-        if(!is_null($this->paciente_id) and $this->paciente_id > 0 ){
+        if(!is_null($this->paciente_id) and $this->paciente_id > 0 ){            
             return $this->arraySituacao("AGENDADA", "success") ;
         }
         return $this->arraySituacao("LIBERADA", "primary");
@@ -51,6 +51,8 @@ class Agenda extends Model
         return $this->belongsTo(Paciente::class, 'paciente_id', 'id');
     }
 
-
+    public function profissional(){
+        return $this->hasOne(Profissional::class, 'id', 'profissional_id');
+    }
 
 }
