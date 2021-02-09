@@ -19,7 +19,7 @@ class CreateAgendasTable extends Migration
 
             $table->id();
 
-           // $table->dateTime('data')->nullable();
+            $table->dateTime('data_agendamento')->nullable();
 
             $table->unsignedBigInteger('profissional_id')->nullable();
             $table->foreign('profissional_id')->references('id')->on('profissionals'); 
@@ -27,7 +27,7 @@ class CreateAgendasTable extends Migration
             $table->unsignedBigInteger('paciente_id')->nullable();
             $table->foreign('paciente_id')->references('id')->on('pacientes'); 
 
-            $table->dateTime('data_agendamento')->nullable();
+            $table->dateTime('data_marcacao')->nullable();
 
             $table->unsignedBigInteger('usuario_agendamento')->nullable();
             $table->foreign('usuario_agendamento')->references('id')->on('users');

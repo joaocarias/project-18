@@ -183,7 +183,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Situação</th>
                                         <th scope="col">Data e Horário</th>
-
+                                        <th scope="col">Profissional</th> 
                                         <th scope="col"></th>
                                     <tr>
                                 </thead>
@@ -194,6 +194,7 @@
                                         <td scope="row">{{ __($item->id) }}</td>
                                         <td><span class="badge badge-{{ $item->situacaoCor() }}">{{ $item->situacaoStatus() }}</span></td>
                                         <td>{{ __($item->dataAgendamento()) }}</td>
+                                        <td>{{ __($item->profissional->nome) }}</td>         
                                         <td class="text-right"> </td>
                                     </tr>
 

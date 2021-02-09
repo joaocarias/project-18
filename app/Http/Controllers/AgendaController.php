@@ -78,7 +78,10 @@ class AgendaController extends Controller
             }
            
             $stringLog = $stringLog . " - usuario_agendamento: " . Auth::user()->id;
-            $obj->usuario_agendamento = Auth::user()->id;  
+            $obj->usuario_agendamento = Auth::user()->id; 
+            
+            $stringLog = $stringLog . " - data_marcacao: " . date('Y-m-d H:i:s');
+            $obj->data_marcacao = date('Y-m-d H:i:s'); 
                                       
             $obj->save();
             
@@ -93,11 +96,11 @@ class AgendaController extends Controller
             }
 
             return redirect()->action(
-                [Paciente::class, 'exibir_paciente'], ['id' => $id]
+                [PacienteController::class, 'show'], ['id' => $request->input('paciente_id')]
             )->withStatus(__('Agenda realizada com Sucesso!'));
         }else{
             return redirect()->action(
-                [Paciente::class, 'exibir_paciente'], ['id' => $id]
+                [PacienteController::class, 'show'], ['id' => $request->input('paciente_id')]
             )->withStatus(__('Não foi possível realizar o agendamento!'));
         }
     }
@@ -137,5 +140,39 @@ class AgendaController extends Controller
                                         , 'agendasProfissional' => $agendasProfissional
                                         , 'pacienteId' => $pacienteId 
                                         , 'profissional' => $profissional ]); 
+    }
+
+    public function desmarcar(Request $request, $id){
+        $obj = Agenda::find($id);
+
+        if (isset($obj)) {            
+            $stringLog = "";
+            
+            $stringLog = $stringLog . " - usuario_desmarcacao: " . Auth::user()->id;
+            $obj->usuario_desmarcacao = Auth::user()->id; 
+            
+            $stringLog = $stringLog . " - data_desmarcacao: " . date('Y-m-d H:i:s');
+            $obj->data_desmarcacao = date('Y-m-d H:i:s'); 
+                                      
+            $obj->save();
+            
+            if($stringLog != ""){
+                $log = new LogSistema();
+                $log->tabela = "agendas";
+                $log->tabela_id = $obj->id;
+                $log->acao = "EDICAO";
+                $log->descricao = $stringLog;
+                $log->usuario_id = Auth::user()->id;
+                $log->save();
+            }
+
+            return redirect()
+                ->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($ob->data_agendamento) ])
+                ->withStatus(__('Agenda desmarcada com Sucesso!'));
+                
+        }else{
+            return redirect()->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($ob->data_agendamento) ])
+            ->withStatus(__('Não foi possível desmarcar!'));
+        }
     }
 }
