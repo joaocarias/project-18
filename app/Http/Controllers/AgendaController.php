@@ -67,7 +67,31 @@ class AgendaController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+        $obj = Agenda::find($id);
+
+        if (isset($obj)) {            
+            $stringLog = "";
+            
+            if($obj->paciente_id != $request->input('paciente_id')){
+                $stringLog = $stringLog . " - paciente_id: " . $obj->paciente_id;
+                $obj->paciente_id = $request->input('paciente_id');                
+            }
+           
+            $stringLog = $stringLog . " - usuario_agendamento: " . Auth::user()->id;
+            $obj->usuario_agendamento = Auth::user()->id;  
+                                      
+            $obj->save();
+            
+            if($stringLog != ""){
+                $log = new LogSistema();
+                $log->tabela = "agendas";
+                $log->tabela_id = $obj->id;
+                $log->acao = "EDICAO";
+                $log->descricao = $stringLog;
+                $log->usuario_id = Auth::user()->id;
+                $log->save();
+            }
+        }
     }
 
     public function destroy($id)
@@ -91,9 +115,11 @@ class AgendaController extends Controller
     public function agendar(Request $request, $pacienteId){    
         $agendasProfissional = null;
         $profissional = null;
-        if(isset($request) && !is_null($request)){
-            $agendasProfissional = $this->_repositorioAgenda->ObterPorDataProfissional($request->input('profissional_id'), Auxiliar::converterDataParaUSA($request->input('data_agenda')));
-            $profissional = $this->_repositorioProfissional->Obter($request->input('profissional_id'));
+        $profissional_id = $request->input('profissional_id');
+        $data_agenda = $request->input('data_agenda');
+        if(isset($request) && !is_null($request) && isset($profissional_id) && !is_null($profissional_id) && isset($data_agenda) && !is_null($data_agenda) ){
+            $agendasProfissional = $this->_repositorioAgenda->ObterPorDataProfissional($profissional_id, Auxiliar::converterDataParaUSA($data_agenda));
+            $profissional = $this->_repositorioProfissional->Obter($profissional_id);
         }
         
         return view('agenda.agendar', ['paciente' => $this->_repositorioPaciente->obter($pacienteId)              

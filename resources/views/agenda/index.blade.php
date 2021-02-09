@@ -98,7 +98,7 @@
                                 <th scope="col">Situação</th>
                                 <th scope="col">Data e Horário</th>
                                 <th scope="col">Paciente</th>
-
+                                <th scope="col">Ficha</th>
                                 <th scope="col"></th>
                             <tr>
                         </thead>
@@ -109,7 +109,16 @@
                                 <td scope="row">{{ __($item->id) }}</td>
                                 <td><span class="badge badge-{{ $item->situacaoCor() }}">{{ $item->situacaoStatus() }}</span></td>
                                 <td>{{ __($item->dataAgendamento()) }}</td>
-                                <td></td>
+                                <td>
+                                    @if($item->paciente && $item->paciente->id > 0)
+                                        {{ __($item->paciente->nome ) }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->paciente && $item->paciente->id > 0)
+                                        {{ __($item->paciente->numero_ficha ) }}
+                                    @endif
+                                </td>
                                 <td class="text-right">
                                     @if($item->paciente && $item->paciente->id > 0)
                                     <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> Desmarcar </a>

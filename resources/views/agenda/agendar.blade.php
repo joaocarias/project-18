@@ -121,9 +121,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Situação</th>
-                                <th scope="col">Data e Horário</th>
-                                <th scope="col">Paciente</th>
-
+                                <th scope="col">Data e Horário</th> 
                                 <th scope="col"></th>
                             <tr>
                         </thead>
@@ -135,7 +133,7 @@
                                 <td scope="row">{{ __($item->id) }}</td>
                                 <td><span class="badge badge-{{ $item->situacaoCor() }}">{{ $item->situacaoStatus() }}</span></td>
                                 <td>{{ __($item->dataAgendamento()) }}</td>
-                                <td></td>
+                               
                                 <td class="text-right">
                                     <form method="POST" action="{{ route('update_agenda', [ 'id' => $item->id ]) }}">
                                         @csrf
@@ -143,7 +141,7 @@
 
                                         <input type="hidden" value="{{ $pacienteId }}" id="paciente_id" name="paciente_id">
 
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-success">
                                             <i class="far fa-save"></i>
                                             {{ __('Agendar') }}
                                         </button>
