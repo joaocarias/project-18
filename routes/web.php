@@ -68,5 +68,6 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/agendas/excluir/{id}', 'AgendaController@destroy')->name('excluir_agenda');
   Route::get('/agendas/agendar/{pacienteId}', 'AgendaController@agendar')->name('agendar_agenda');
   Route::put('/agendas/update/{id}', 'AgendaController@update')->name('update_agenda');
+  Route::put('/agendas/desmarcar', 'AgendaController@desmarcar')->name('desmarcar_agenda');
 
 });

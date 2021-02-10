@@ -144,8 +144,8 @@ class AgendaController extends Controller
                                         , 'profissional' => $profissional ]); 
     }
 
-    public function desmarcar(Request $request, $id){
-        $obj = Agenda::find($id);
+    public function desmarcar(Request $request){
+        $obj = Agenda::find($request->input('id'));
 
         if (isset($obj)) {            
             $stringLog = "";
@@ -167,6 +167,12 @@ class AgendaController extends Controller
                 $log->usuario_id = Auth::user()->id;
                 $log->save();
             }
+
+            $objNovo = new Agenda();
+            $objNovo->profissional_id = $obj->profissional_id;
+            $objNovo->data_agendamento = $obj->data_agendamento;
+            $objNovo->usuario_cadastro = Auth::user()->id;
+            $objNovo->save();
 
             return redirect()
                 ->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($obj->data_agendamento) ])

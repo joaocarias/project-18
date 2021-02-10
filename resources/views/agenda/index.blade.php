@@ -111,17 +111,19 @@
                                 <td>{{ __($item->dataAgendamento()) }}</td>
                                 <td>
                                     @if($item->paciente && $item->paciente->id > 0)
-                                        {{ __($item->paciente->nome ) }}
+                                    {{ __($item->paciente->nome ) }}
                                     @endif
                                 </td>
                                 <td>
                                     @if($item->paciente && $item->paciente->id > 0)
-                                        {{ __($item->paciente->numero_ficha ) }}
+                                    {{ __($item->paciente->numero_ficha ) }}
                                     @endif
                                 </td>
                                 <td class="text-right">
                                     @if($item->paciente && $item->paciente->id > 0)
-                                    <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i> Desmarcar </a>
+                                        @if(!isset(($item->data_desmarcacao)) && is_null($item->data_desmarcacao))
+                                            <a href="#" class="btn btn-warning btn-sm btn-desmarcar" obj-desmarcar-id="{{ $item->id }}"><i class="far fa-edit"></i> Desmarcar </a>
+                                        @endif
                                     @else
                                     <a href="#" class="btn btn-danger btn-sm btn-excluir" obj-id="{{ $item->id }}"> <i class="far fa-trash-alt"></i> Excluir </a>
                                     @endif
@@ -235,6 +237,34 @@
         </div>
     </div>
 
+    <!-- Modal Desmarcar -->
+    <div class="modal fade" id="ModalDesmarcar" tabindex="-1" role="dialog" aria-labelledby="TituloModalDesmarcar" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TituloModalDesmarcar"><i class="fas fa-exclamation-circle"></i> Desmarcar Agendamento!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja Desmarcar a Agenda?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="{{ route('desmarcar_agenda') }}">
+                        @csrf
+                        @method('put')
+
+                        <input type="hidden" class="hidden-id-desmarcar" id="id" name="id" value="" />
+                        <button class="btn btn-warning submit"> <i class="far fa-edit"></i> Confirmar e Desmarcar</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal"> <i class="fas fa-ban"></i> Cancelar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     @endsection
 
     @section('javascript')
@@ -274,6 +304,14 @@
             var id = $(this).attr('obj-id');
             $('#url-modal-excluir').attr('href', '/agendas/excluir/' + id);
             $('#ModalExcluir').modal('show');
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('.btn-desmarcar').on('click', function() {
+            var id = $(this).attr('obj-desmarcar-id');
+            $('.hidden-id-desmarcar').val(id);
+            $('#ModalDesmarcar').modal('show');
         });
     </script>
     @endsection

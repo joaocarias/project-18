@@ -27,7 +27,9 @@ class Agenda extends Model
     }
 
     private function situacao(){
-        if(!is_null($this->paciente_id) and $this->paciente_id > 0 ){            
+        if(!is_null($this->paciente_id) and $this->paciente_id > 0 ){      
+            if(isset(($this->data_desmarcacao)) && !is_null($this->data_desmarcacao))
+                return $this->arraySituacao("CANCELADA", "danger") ;          
             return $this->arraySituacao("AGENDADA", "success") ;
         }
         return $this->arraySituacao("LIBERADA", "primary");
