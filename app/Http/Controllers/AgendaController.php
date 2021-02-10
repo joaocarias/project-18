@@ -108,6 +108,8 @@ class AgendaController extends Controller
     public function destroy($id)
     {
         $obj = Agenda::find($id);
+        $data_agendamento = $obj->data_agendamento;
+        $profissional_id = $obj->profissional_id;
       
         if (isset($obj)) {
             $obj->delete();
@@ -119,7 +121,7 @@ class AgendaController extends Controller
             $log->usuario_id = Auth::user()->id;
             $log->save();
             
-            return redirect()->route('agendas')->withStatus(__('Cadastro Excluído com Sucesso!'));
+            return redirect()->route('agendas',  ['profissional_id' => $profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($data_agendamento) ])->withStatus(__('Cadastro Excluído com Sucesso!'));
         }
     }
 
@@ -167,11 +169,11 @@ class AgendaController extends Controller
             }
 
             return redirect()
-                ->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($ob->data_agendamento) ])
+                ->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($obj->data_agendamento) ])
                 ->withStatus(__('Agenda desmarcada com Sucesso!'));
                 
         }else{
-            return redirect()->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($ob->data_agendamento) ])
+            return redirect()->route('agendas', ['profissional_id' => $obj->profissional_id, 'data_agenda' => Auxiliar::converterDataParaBR($obj->data_agendamento) ])
             ->withStatus(__('Não foi possível desmarcar!'));
         }
     }
