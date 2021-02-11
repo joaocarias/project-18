@@ -2,39 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Dados\Repositorios\RepositorioFornecedor;
 use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+{ 
+    private $_repositorioFornecedor;
+    
+    public function __construct()
+    {
+        $this->_repositorioFornecedor = new RepositorioFornecedor();
+    }
+
     public function index()
     {
-        //
+        $objs = $this->_repositorioFornecedor->ObterTodos();
+        return view('fornecedor.index', ['fornecedores' => $objs]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
-        //
+        return view('fornecedor.create', ['fornecedor' => null]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->regras(), $this->mensagens());
+        $retorno = $this->_repositorioFornecedor->Adicionar($request);
+        if($retorno)
+            return redirect()->route('fornecedores')->withStatus(__('Cadastro Realizado com Sucesso!'));
+        
+        return redirect()->route('fornecedores')->withStatus(__('ERROR: Cadastro Não Realizado!'));
     }
 
     /**
@@ -80,5 +78,29 @@ class FornecedorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function regras(){
+        return [
+            'nome' => 'required|min:3|max:254',
+            
+            'logradouro' => 'required|min:3|max:254',
+            'cidade' => 'required|min:3|max:254',
+            'uf' => 'required',
+        ]; 
+    }
+
+    private function mensagens(){
+        return [
+            'required' => 'Campo Obrigatório!',
+            'nome.required' => 'Campo Obrigatório!',
+            'nome.min' => 'É necessário no mínimo 3 caracteres!',
+            
+            'logradouro.required' => 'Campo Obrigatório!',
+            'logradouro.min' => 'É necessário no mínimo 3 caracteres!',
+            'cidade.required' => 'Campo Obrigatório!',
+            'cidade.min' => 'É necessário no mínimo 3 caracteres!',
+            'uf.required' => 'Campo Obrigatório!',
+        ];
     }
 }

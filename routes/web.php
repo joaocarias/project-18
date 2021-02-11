@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::put('/usuarios/updatepassword/{id}', 'Auth\\UserController@updatePassword')->name('update_password');
   Route::get('/usuarios', 'Auth\\UserController@index')->name('usuarios');
 
-  /* Aluno */
+  /* Paciente */
   Route::get('/pacientes', 'PacienteController@index')->name('pacientes');
   Route::get('/pacientes/exibir/{id}', 'PacienteController@show')->name('exibir_paciente');
   Route::get('/pacientes/novo', 'PacienteController@create')->name('novo_paciente');
@@ -70,4 +70,13 @@ Route::group(['middleware' => 'auth'], function () {
   Route::put('/agendas/update/{id}', 'AgendaController@update')->name('update_agenda');
   Route::put('/agendas/desmarcar', 'AgendaController@desmarcar')->name('desmarcar_agenda');
 
+   /* Paciente */
+   Route::get('/fornecedores', 'FornecedorController@index')->name('fornecedores');
+   Route::get('/fornecedores/exibir/{id}', 'FornecedorController@show')->name('exibir_fornecedor');
+   Route::get('/fornecedores/novo', 'FornecedorController@create')->name('novo_fornecedor');
+   Route::post('/fornecedores/store', 'FornecedorController@store')->name('cadastrar_fornecedor');
+   Route::get('/fornecedores/excluir/{id}', 'FornecedorController@destroy')->name('excluir_fornecedor');
+   Route::get('/fornecedores/editar/{id}', 'FornecedorController@edit')->name('editar_fornecedor');
+   Route::put('/fornecedores/update/{id}', 'FornecedorController@update')->name('update_fornecedor');
+   
 });

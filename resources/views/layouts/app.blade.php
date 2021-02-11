@@ -83,7 +83,14 @@
                                     <i class="fas fa-user-graduate"></i> &nbsp;
                                     {{ __('Tipo de Profissionais') }}
                                 </a>
-                                                              
+
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{{ route('fornecedores') }}">
+                                <i class="fas fa-drafting-compass"></i> &nbsp;
+                                    {{ __('Fornecedores') }}
+                                </a>
+
                                 <div class="dropdown-divider"></div>
 
                                 <a class="dropdown-item" href="{{ route('empresa') }}">
