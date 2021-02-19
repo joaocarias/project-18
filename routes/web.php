@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::put('/agendas/update/{id}', 'AgendaController@update')->name('update_agenda');
   Route::put('/agendas/desmarcar', 'AgendaController@desmarcar')->name('desmarcar_agenda');
 
-   /* Paciente */
+   /* Fornecedor */
    Route::get('/fornecedores', 'FornecedorController@index')->name('fornecedores');
    Route::get('/fornecedores/exibir/{id}', 'FornecedorController@show')->name('exibir_fornecedor');
    Route::get('/fornecedores/novo', 'FornecedorController@create')->name('novo_fornecedor');
@@ -79,4 +79,6 @@ Route::group(['middleware' => 'auth'], function () {
    Route::get('/fornecedores/editar/{id}', 'FornecedorController@edit')->name('editar_fornecedor');
    Route::put('/fornecedores/update/{id}', 'FornecedorController@update')->name('update_fornecedor');
    
+  /* Produto Fornecedor */
+  Route::post('/produtofornecedor/store', 'ProdutoFornecedorController@store')->name('cadastrar_produto_fornecedor');
 });
