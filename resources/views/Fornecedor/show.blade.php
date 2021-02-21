@@ -123,8 +123,8 @@
                                 <td>{{ __($item->usuarioCadastro->name) }}</td>
                                 <td>{{ __($item->dataCadastro()) }}</td>
                                 <td class="text-right">
-                                    <a href="{{ route('editar_tipo_profissional', ['id' => $item->id ]) }}" class="btn btn-primary btn-sm"><i class="far fa-edit"></i> Editar </a>
-                                    <a href="#" class="btn btn-danger btn-sm btn-excluir" obj-id="{{ $item->id }}"> <i class="far fa-trash-alt"></i> Excluir </a>
+                                    <a href="#" class="btn btn-primary btn-sm btn-editar-produto-fornecedor" obj-id-produto-fornecedor="{{ $item->id }}" obj-id-fornecedor="{{ $item->fornecedor_id }}" obj-nome-produto-fornecedor="{{ $item->nome }}" obj-valor-produto-fornecedor="{{ $item->precoBR() }}" ><i class="far fa-edit"></i> Editar </a>
+                                    <a href="#" class="btn btn-danger btn-sm btn-excluir-produto-fornecedor" obj-id-produto-fornecedor="{{ $item->id }}"> <i class="far fa-trash-alt"></i> Excluir </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -154,53 +154,8 @@
 </div>
 
 @include('layouts._modal_excluir')
-
-<!-- Modal Associar Permissao -->
-<div class="modal fade" id="ModalInserirProdutoFornecedor" tabindex="-1" role="dialog" aria-labelledby="TituloModalInserirProdutoFornecedor" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="TituloModalProdutoFornecedor"><i class="fas fa-exclamation-circle"></i> Inserir Produto!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('cadastrar_produto_fornecedor') }}" class="form-inserir-produto-fornecedor">
-                    @csrf
-
-                    <input type="hidden" name="fornecedor_id" id="fornecedor_id" value="{{ __($fornecedor->id) }}">
-
-                    <div class="col-md-9">
-                        <label for="produto_fonecedor_nome" class="col-form-label text-md-right">{{ __('* Nome') }}</label>
-                        <input id="produto_fonecedor_nome" type="text" class="form-control @error('produto_fonecedor_nome') is-invalid @enderror" name="produto_fonecedor_nome" value="{{ old('produto_fornecedor_nome', $produto_fonecedor->nome ?? '') }}" autocomplete="produto_fonecedor_nome" required maxlength="255" minlength="3">
-
-                        @error('produto_fonecedor_nome')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="valor_base" class="col-form-label text-md-right">{{ __('* Valor (R$)') }}</label>
-                        <input id="valor_base" type="text" class="form-control @error('valor_base') is-invalid @enderror mask_moeda_real" name="valor_base" value="{{ old('valor_base', $produto_fornecedor->valor_base ?? '') }}" autocomplete="valor_base" required maxlength="10" minlength="3">
-
-                        @error('valor_base')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                        @enderror
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button href="#" class="btn btn-primary url-modal-submit-form-produto-fornecedor"> <i class="far fa-save"></i> Inserir Produto</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal"> <i class="fas fa-ban"></i> Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
+@include('produto_fornecedor._modal_novo')
+@include('produto_fornecedor._modal_editar')
 
 @endsection
 
@@ -225,5 +180,25 @@
     $('.url-modal-submit-form-produto-fornecedor').on('click', function() {
         $('.form-inserir-produto-fornecedor').submit();
     });
+
+    $('.btn-editar-produto-fornecedor').on('click', function() {
+        var id = $(this).attr('obj-id-produto-fornecedor');
+        var fornecedor_id = $(this).attr('obj-fornecedor-id');
+        var nome = $(this).attr('obj-nome-produto-fornecedor');
+        var preco = $(this).attr('obj-valor-produto-fornecedor');
+
+        $('.fornecedor_id').val(fornecedor_id);
+        $('.produto_fornecedor_id').val(id);
+        $('.produto_fonecedor_nome').val(nome);
+        $('.valor_base').val(preco);
+
+        $('#ModalEditarProdutoFornecedor').modal('show');
+       
+    });
+
+    $('.url-modal-submit-form-editar-produto-fornecedor').on('click', function() {
+        $('.form-editar-produto-fornecedor').submit();
+    });
+    
 </script>
 @endsection

@@ -81,4 +81,7 @@ Route::group(['middleware' => 'auth'], function () {
    
   /* Produto Fornecedor */
   Route::post('/produtofornecedor/store', 'ProdutoFornecedorController@store')->name('cadastrar_produto_fornecedor');
+  Route::put('/produtofornecedor/uptade', 'ProdutoFornecedorController@update')->name('update_produto_fornecedor');
+
+  
 });
