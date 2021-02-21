@@ -20,9 +20,12 @@ class CreateProdutoFornecedorsTable extends Migration
             $table->string('nome', 255);
             $table->decimal('valor_base', 10, 2)->default(0);
 
+            $table->unsignedBigInteger('fornecedor_id');
+            $table->foreign('fornecedor_id')->references('id')->on('fornecedors');
+
             $table->unsignedBigInteger('usuario_cadastro');
             $table->foreign('usuario_cadastro')->references('id')->on('users');
-
+            
             $table->softDeletes();
             $table->timestamps();
         });

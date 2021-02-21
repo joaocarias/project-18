@@ -17,7 +17,12 @@ class Fornecedor extends Model
     }
 
     public function dataCadastro()
-    {         
+    {
         return Auxiliar::converterDataTimeBR($this->created_at);
+    }
+
+    public function produtos()
+    {
+        return $this->hasMany(ProdutoFornecedor::class, 'fornecedor_id', 'id');
     }
 }

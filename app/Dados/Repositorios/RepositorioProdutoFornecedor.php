@@ -23,7 +23,8 @@ class RepositorioProdutoFornecedor implements IRepositorioProdutoFornecedor{
     {
         try {
             $obj = new ProdutoFornecedor();
-            $obj->nome = mb_strtoupper($request->input('produto_fonecedor_nome'));        
+            $obj->nome = mb_strtoupper($request->input('produto_fonecedor_nome')); 
+            $obj->fornecedor_id = $request->input('fornecedor_id');        
             $obj->definirPrecoUS($request->input('valor_base')) ;
             $obj->usuario_cadastro = Auth::user()->id;
             $obj->save();

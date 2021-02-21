@@ -102,7 +102,7 @@
             <div class="card mb-3">
                 <div class="card-header">{{ __('Produtos') }}</div>
                 <div class="card-body">
-                    @if(isset($produtos) && count($produtos) > 0)
+                    @if(isset($fornecedor->produtos) && count($fornecedor->produtos) > 0)
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -115,11 +115,11 @@
                             <tr>
                         </thead>
                         <tbody>
-                            @foreach ($produtos as $item)
+                            @foreach ($fornecedor->produtos as $item)
                             <tr>
                                 <td scope="row">{{ __($item->id) }}</td>
                                 <td>{{ __($item->nome) }}</td>
-                                <td>{{ __($item->valor_base) }}</td>
+                                <td>{{ __($item->precoBR()) }}</td>
                                 <td>{{ __($item->usuarioCadastro->name) }}</td>
                                 <td>{{ __($item->dataCadastro()) }}</td>
                                 <td class="text-right">

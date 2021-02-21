@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dados\Repositorios\RepositorioFornecedor;
 use App\Dados\Repositorios\RepositorioEndereco;
 use App\Dados\Repositorios\RepositorioLog;
+use App\ProdutoFornecedor;
 use Illuminate\Http\Request;
 
 class FornecedorController extends Controller
@@ -49,9 +50,12 @@ class FornecedorController extends Controller
         if($obj->endereco_id > 0)
             $endereco = $this->_repositorioEndereco->obter($obj->endereco_id);
 
+        $produtos = $obj->produtos();
+
         return view('fornecedor.show', ['fornecedor' => $obj
-                                        , 'endereco' => $endereco
-                    ]);
+                                         , 'endereco' => $endereco
+                                         , 'produtos' => $produtos
+                     ]);
     }
 
     public function edit($id)
