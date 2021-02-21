@@ -61,17 +61,29 @@ class ProdutoFornecedorController extends Controller
             return redirect()->action(
                 [FornecedorController::class, 'show'],
                 ['id' => $obj->fornecedor_id ]
-            )->withStatus(__('Cadastro realizado com Sucesso!'));
+            )->withStatus(__('Cadastro atualizado com Sucesso!'));
         }
 
         return redirect()->action(
             [FornecedorController::class, 'show'],
             ['id' => $request->input('fornecedor_id')]
-        )->withStatus(__('ERROR: Cadastro Não Realizado!'));
+        )->withStatus(__('ERROR: Cadastro Não atualizado!'));
     }
 
     public function destroy($id)
     {
+        $obj = $this->_repositorioProdutoFornecedor->Obter($id);
+        $fornecedor_id = $obj->fornecedor_id;
+        if (isset($obj)) {
+            $this->_repositorioLog->Adicionar('protudo_fornecedors', $obj->id, 'EXCLUSAO', 'EXCLUSAO');
+            $obj->delete();
+
+            return redirect()->action(
+                [FornecedorController::class, 'show'],
+                ['id' => $fornecedor_id ]
+            )->withStatus(__('Cadastro Excluído com Sucesso!'));
+        }
+        return redirect()->route('fornecedores')->withStatus(__('Cadastro Não Excluído!'));
     }
 
     private function regras()

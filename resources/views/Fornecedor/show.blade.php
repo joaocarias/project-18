@@ -156,6 +156,7 @@
 @include('layouts._modal_excluir')
 @include('produto_fornecedor._modal_novo')
 @include('produto_fornecedor._modal_editar')
+@include('produto_fornecedor._modal_excluir')
 
 @endsection
 
@@ -192,13 +193,17 @@
         $('.produto_fonecedor_nome').val(nome);
         $('.valor_base').val(preco);
 
-        $('#ModalEditarProdutoFornecedor').modal('show');
-       
+        $('#ModalEditarProdutoFornecedor').modal('show');       
     });
 
     $('.url-modal-submit-form-editar-produto-fornecedor').on('click', function() {
         $('.form-editar-produto-fornecedor').submit();
     });
-    
+
+    $('.btn-excluir-produto-fornecedor').on('click', function() {
+        var id = $(this).attr('obj-id-produto-fornecedor');
+        $('#url-modal-excluir-produto-fornecedor').attr('href', '/produtofornecedor/excluir/' + id);
+        $('#ModalExcluirProdutoFornecedor').modal('show');
+    });
 </script>
 @endsection
