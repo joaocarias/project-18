@@ -84,4 +84,10 @@ Route::group(['middleware' => 'auth'], function () {
   Route::put('/produtofornecedor/uptade', 'ProdutoFornecedorController@update')->name('update_produto_fornecedor');
   Route::get('/produtofornecedor/excluir/{id}', 'ProdutoFornecedorController@destroy')->name('excluir_produto_fornecedor');
   
+  /* Produto */
+  Route::get('/produtos', 'ProdutoController@index')->name('produtos');
+  Route::post('/produtos/store', 'ProdutoController@store')->name('cadastrar_produto');
+  Route::put('/produtos/uptade', 'ProdutoController@update')->name('update_produto');
+  Route::get('/produtos/excluir/{id}', 'ProdutoController@destroy')->name('excluir_produto');
+   
 });

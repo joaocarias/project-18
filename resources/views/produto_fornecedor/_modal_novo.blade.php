@@ -12,7 +12,7 @@
                 <form method="POST" action="{{ route('cadastrar_produto_fornecedor') }}" class="form-inserir-produto-fornecedor">
                     @csrf
 
-                    <input type="hidden" name="fornecedor_id" id="fornecedor_id" value="{{ __($fornecedor->id) }}">
+                    <input type="hidden" name="fornecedor_id" id="fornecedor_id" value="{{ __($fornecedor->id) }}" />
 
                     <div class="col-md-9">
                         <label for="produto_fonecedor_nome" class="col-form-label text-md-right">{{ __('* Nome') }}</label>

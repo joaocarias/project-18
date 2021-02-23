@@ -93,6 +93,11 @@
 
                                 <div class="dropdown-divider"></div>
 
+                                <a class="dropdown-item" href="{{ route('produtos') }}">
+                                <i class="fas fa-drafting-compass"></i> &nbsp;
+                                    {{ __('Produtos') }}
+                                </a>
+
                                 <a class="dropdown-item" href="{{ route('empresa') }}">
                                     <i class="fas fa-school"></i> &nbsp;
                                     {{ __('Empresa') }}
